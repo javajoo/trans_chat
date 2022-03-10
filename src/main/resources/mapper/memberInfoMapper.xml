@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.trans.mapper.MemberInfoMapper" >
+	<insert id="insertMemberInfo" parameterType="map">
+		INSERT INTO `member_info`
+		(
+			`mi_name`
+			,`mi_birth`
+			,`mi_email`
+			,`mi_id`
+			,`mi_password`
+			,`credate`
+			,`cretime`
+			,`moddate`
+			,`modtime`
+		)
+		VALUES
+		(
+			#{miName}
+			,#{miBirth}
+			,#{miEmail}
+			,#{miId}
+			,#{miPassword}
+			,DATE_FORMAT(NOW(), '%y%m%d')
+			,DATE_FORMAT(NOW(),'%H%i%s')
+			,DATE_FORMAT(NOW(), '%y%m%d')
+			,DATE_FORMAT(NOW(),'%H%i%s')
+		)
+	</insert>
+	
+	<select id="existById" resultType="boolean" parameterType="String">
+		SELECT
+			COUNT(*)
+		FROM
+			`member_info`
+		WHERE
+			`mi_id` = #{miId}
+	</select>
+	
+	<select id="memberByIdPassword" parameterType="map" resultType="com.trans.vo.MemberInfoVO">
+		SELECT
+			`mi_num`
+			,`mi_name`
+			,`mi_birth`
+			,`mi_email`
+			,`mi_id`
+			,`mi_password`
+			,`credate`
+			,`cretime`
+			,`moddate`
+			,`modtime`
+		FROM
+			`member_info`
+		WHERE
+			`mi_id` = #{miId} AND
+			`mi_password` = #{miPassword}
+	</select>
+</mapper>
